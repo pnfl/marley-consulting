@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marley Personal Consulting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000000;
+      --dark: #111111;
+      --dark-2: #161616;
+      --dark-3: #1e1e1e;
+      --navy: #0a0f1e;
+      --navy-2: #0d1428;
+      --gray-800: #2a2a2a;
+      --gray-700: #3a3a3a;
+      --gray-600: #555555;
+      --gray-500: #777777;
+      --gray-400: #999999;
+      --gray-300: #bbbbbb;
+      --gray-200: #dddddd;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s ease;
+    }
+    nav.scrolled { padding: 14px 48px; background: rgba(0,0,0,0.97); }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gray-400); font-weight: 300; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--white);
+      color: var(--black) !important;
+      padding: 10px 24px;
+      border-radius: 2px;
+      font-size: 0.78rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      transition: background 0.3s !important;
+    }
+    .nav-cta:hover { background: var(--gray-200) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 24px; height: 2px; background: var(--white); transition: all 0.3s; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--black) 45%, var(--dark) 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: 120px 48px 80px;
+    }
+    .hero-noise {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 820px; text-align: center; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gray-400); margin-bottom: 32px;
+      animation: fadeUp 0.8s ease forwards;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after { content: ''; width: 32px; height: 1px; background: var(--gray-600); }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      font-weight: 900; line-height: 1.08; letter-spacing: -0.02em;
+      color: var(--white); margin-bottom: 28px;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+    .hero-title em { font-style: italic; color: var(--gray-300); }
+    .hero-subtitle {
+      font-size: clamp(1rem, 1.8vw, 1.15rem); font-weight: 300; color: var(--gray-400);
+      line-height: 1.7; max-width: 560px; margin: 0 auto 48px;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.8s 0.45s ease both; }
+    .btn-primary {
+      background: var(--white); color: var(--black);
+      padding: 16px 36px; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; border-radius: 2px; transition: all 0.3s ease; display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gray-200); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--white);
+      padding: 16px 36px; font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 2px; transition: all 0.3s ease; display: inline-block;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.5); transform: translateY(-2px); }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 56px; margin-top: 72px;
+      animation: fadeUp 0.8s 0.6s ease both; flex-wrap: wrap;
+    }
+    .stat-item { text-align: center; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--white); display: block; line-height: 1; }
+    .stat-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray-500); margin-top: 6px; display: block; }
+    .stat-divider { width: 1px; background: rgba(255,255,255,0.1); align-self: stretch; min-height: 40px; }
+
+    /* ── SECTION UTILS ── */
+    section { padding: 100px 48px; }
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gray-500); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--gray-700); }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900; line-height: 1.1; letter-spacing: -0.02em;
+      color: var(--white); max-width: 600px;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--dark-2); }
+    .about-inner {
+      display: block;
+      max-width: 780px; margin: 0 auto;
+    }
+    .about-body { font-size: 1.05rem; font-weight: 300; color: var(--gray-300); line-height: 1.85; margin-top: 32px; }
+    .about-body p { margin-bottom: 20px; }
+    .about-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+    .pillar {
+      padding: 20px; border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 4px; background: rgba(255,255,255,0.02); transition: border-color 0.3s;
+    }
+    .pillar:hover { border-color: rgba(255,255,255,0.18); }
+    .pillar-icon { font-size: 1.4rem; margin-bottom: 8px; display: block; }
+    .pillar-title { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); margin-bottom: 4px; }
+    .pillar-desc { font-size: 0.82rem; color: var(--gray-500); line-height: 1.5; }
+
+    /* ── SERVICES ── */
+    #services { background: var(--black); }
+    .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; max-width: 1100px; margin-left: auto; margin-right: auto; flex-wrap: wrap; gap: 24px; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: rgba(255,255,255,0.06);
+      max-width: 1100px; margin: 0 auto; border-radius: 4px; overflow: hidden;
+    }
+    .service-card { background: var(--dark-2); padding: 40px 32px; transition: background 0.3s ease; }
+    .service-card:hover { background: var(--dark-3); }
+    .service-icon { font-size: 1.8rem; margin-bottom: 20px; display: block; }
+    .service-name { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 12px; letter-spacing: -0.01em; }
+    .service-desc { font-size: 0.87rem; color: var(--gray-500); line-height: 1.65; }
+    .service-arrow { margin-top: 24px; color: var(--gray-600); font-size: 1.2rem; transition: color 0.3s, transform 0.3s; display: inline-block; }
+    .service-card:hover .service-arrow { color: var(--white); transform: translateX(4px); }
+
+    /* ── PRICING ── */
+    #pricing { background: var(--navy); }
+    .pricing-header { max-width: 1100px; margin: 0 auto 64px; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; align-items: start; }
+    .pricing-card {
+      background: var(--dark); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 4px; padding: 40px 32px; position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .pricing-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-4px); }
+    .pricing-card.featured { border-color: rgba(255,255,255,0.25); background: var(--dark-3); transform: scale(1.02); }
+    .pricing-card.featured:hover { transform: scale(1.02) translateY(-4px); }
+    .pricing-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--white); color: var(--black);
+      padding: 4px 18px; font-size: 0.65rem; font-weight: 800;
+      letter-spacing: 0.18em; text-transform: uppercase; border-radius: 2px; white-space: nowrap;
+    }
+    .pricing-plan { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 20px; }
+    .pricing-price { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--white); line-height: 1; margin-bottom: 6px; }
+    .pricing-price sup { font-family: 'Inter', sans-serif; font-size: 1.2rem; font-weight: 600; vertical-align: super; }
+    .pricing-period { font-size: 0.82rem; color: var(--gray-500); margin-bottom: 32px; }
+    .pricing-divider { height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 28px; }
+    .pricing-features { list-style: none; margin-bottom: 36px; }
+    .pricing-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; color: var(--gray-300); margin-bottom: 14px; line-height: 1.5; }
+    .pricing-features li::before { content: '✓'; color: var(--gray-400); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .btn-pricing { display: block; text-align: center; text-decoration: none; padding: 14px 24px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 2px; transition: all 0.3s; }
+    .btn-pricing-outline { border: 1px solid rgba(255,255,255,0.2); color: var(--white); }
+    .btn-pricing-outline:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.4); }
+    .btn-pricing-solid { background: var(--white); color: var(--black); }
+    .btn-pricing-solid:hover { background: var(--gray-200); }
+
+    /* ── PORTFOLIO / GALLERY ── */
+    #portfolio { background: var(--dark-2); }
+    .portfolio-header { max-width: 1100px; margin: 0 auto 64px; }
+    .portfolio-intro {
+      font-size: 1rem; font-weight: 300; color: var(--gray-400);
+      line-height: 1.75; max-width: 540px; margin-top: 20px;
+    }
+
+    /* Person block */
+    .person-block { max-width: 1100px; margin: 0 auto 72px; }
+    .person-block:last-child { margin-bottom: 0; }
+
+    .person-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 28px; flex-wrap: wrap; gap: 16px;
+      padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .person-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 900; color: var(--white); letter-spacing: -0.02em;
+    }
+    .person-role {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gray-600); margin-top: 5px;
+    }
+    .person-caption {
+      font-size: 0.88rem; font-style: italic; color: var(--gray-500);
+      max-width: 320px; text-align: right; line-height: 1.6;
+    }
+
+
+    /* Italo: 1 large hero + 2 stacked right */
+    .gallery-italo {
+      display: grid;
+      grid-template-columns: 1.55fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 8px;
+    }
+    .gallery-italo .img-hero {
+      grid-row: 1 / 3;
+      aspect-ratio: 2/3;
+    }
+    .gallery-italo .img-hero img {
+      object-fit: cover;
+      object-position: center center;
+    }
+    .gallery-italo .img-a,
+    .gallery-italo .img-b {
+      aspect-ratio: 3/4;
+    }
+    .gallery-italo .img-a img,
+    .gallery-italo .img-b img {
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    /* Marley: 3 columns */
+    .gallery-marley {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      height: 520px;
+    }
+
+    /* Rafael: 3 columns equal */
+    .gallery-rafael {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      height: 520px;
+    }
+
+    /* Shared image frame */
+    .img-frame {
+      border-radius: 4px; overflow: hidden; position: relative;
+      background: var(--dark-3);
+    }
+    .img-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      display: block;
+    }
+    .img-frame:hover img { transform: scale(1.04); }
+    .img-frame::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.28) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--black); }
+    .testimonials-header { max-width: 1100px; margin: 0 auto 56px; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+    .testimonial-card {
+      background: var(--dark-2); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 4px; padding: 36px 32px; transition: border-color 0.3s;
+    }
+    .testimonial-card:hover { border-color: rgba(255,255,255,0.15); }
+    .testimonial-quote { font-size: 1.8rem; color: var(--gray-700); line-height: 1; margin-bottom: 16px; font-family: 'Playfair Display', serif; }
+    .testimonial-text { font-size: 0.95rem; color: var(--gray-300); line-height: 1.75; font-style: italic; margin-bottom: 28px; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gray-800); display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700; color: var(--gray-400); flex-shrink: 0; }
+    .author-name { font-size: 0.88rem; font-weight: 700; color: var(--white); }
+    .author-role { font-size: 0.75rem; color: var(--gray-500); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--navy-2); }
+    .contact-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .contact-tagline { font-size: 1.05rem; color: var(--gray-400); margin-top: 20px; line-height: 1.7; font-weight: 300; }
+    .contact-links { display: flex; flex-direction: column; gap: 16px; margin-top: 40px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 24px; background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07); border-radius: 4px;
+      text-decoration: none; color: var(--white); font-size: 0.9rem; font-weight: 500;
+      transition: all 0.3s;
+    }
+    .contact-link:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.2); transform: translateX(4px); }
+    .contact-link-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .contact-link-info { flex: 1; }
+    .contact-link-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray-500); display: block; margin-bottom: 2px; }
+    .contact-cta-box { background: var(--dark); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 48px 40px; }
+    .contact-cta-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--white); margin-bottom: 16px; }
+    .contact-cta-text { font-size: 0.9rem; color: var(--gray-400); line-height: 1.65; margin-bottom: 32px; }
+    .contact-cta-btns { display: flex; flex-direction: column; gap: 12px; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.05); padding: 48px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .footer-tagline { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray-600); }
+    .footer-center { text-align: center; }
+    .footer-phrase { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1rem; color: var(--gray-500); }
+    .footer-dev { font-size: 0.7rem; color: var(--gray-700); margin-top: 6px; }
+    .footer-dev a { color: var(--gray-500); text-decoration: none; transition: color 0.3s; }
+    .footer-dev a:hover { color: var(--white); }
+    .footer-social { display: flex; gap: 16px; }
+    .footer-social a {
+      width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; text-decoration: none; color: var(--gray-500); transition: all 0.3s;
+    }
+    .footer-social a:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
+    .footer-copyright { width: 100%; text-align: center; font-size: 0.72rem; color: var(--gray-700); padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.04); margin-top: 8px; }
+
+    /* ── FLOATING WHATSAPP ── */
+    .float-wa {
+      position: fixed; bottom: 28px; right: 28px; z-index: 999;
+      width: 56px; height: 56px; background: #25d366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; text-decoration: none;
+      box-shadow: 0 4px 24px rgba(37,211,102,0.35);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .float-wa:hover { transform: scale(1.1); box-shadow: 0 6px 32px rgba(37,211,102,0.5); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      nav { padding: 18px 32px; }
+      section { padding: 80px 32px; }
+      .about-inner { grid-template-columns: 1fr; gap: 48px; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+
+      .gallery-marley, .gallery-rafael { height: 400px; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(0,0,0,0.98); padding: 24px 20px; gap: 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      .hamburger { display: flex; }
+      section { padding: 64px 20px; }
+      #hero { padding: 100px 20px 60px; }
+      .hero-stats { gap: 32px; }
+      .stat-divider { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-card.featured { transform: none; }
+      .gallery-italo { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; }
+      .gallery-italo .img-hero { grid-row: auto; aspect-ratio: 3/4; }
+      .gallery-italo .img-a, .gallery-italo .img-b { aspect-ratio: 3/4; }
+      .gallery-marley { grid-template-columns: 1fr; height: auto; }
+      .gallery-marley .img-frame { aspect-ratio: 3/4; }
+      .gallery-rafael { grid-template-columns: 1fr; height: auto; }
+      .gallery-rafael .img-frame { aspect-ratio: 3/4; }
+      .person-header { flex-direction: column; align-items: flex-start; }
+      .person-caption { text-align: left; max-width: 100%; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-center { text-align: left; }
+      footer { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">Marley <span>Personal</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">Sobre</a></li>
+      <li><a href="#services">Serviços</a></li>
+      <li><a href="#pricing">Planos</a></li>
+      <li><a href="#portfolio">Portfólio</a></li>
+      <li><a href="#contact">Contato</a></li>
+      <li><a href="https://wa.me/5582994225323" target="_blank" rel="noopener noreferrer" class="nav-cta">Começar</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-noise"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Marley Personal Consulting</div>
+      <h1 class="hero-title">
+        Transforme seu corpo com<br>
+        <em>orientação profissional.</em>
+      </h1>
+      <p class="hero-subtitle">
+        Consultoria e acompanhamento presencial e online focados na sua evolução física — com estratégia, consistência e orientação especializada.
+      </p>
+      <div class="hero-btns">
+        <a href="https://wa.me/5582994225323" target="_blank" rel="noopener noreferrer" class="btn-primary">Começar Agora</a>
+        <a href="https://wa.me/5582994225323" target="_blank" rel="noopener noreferrer" class="btn-outline">Falar no WhatsApp</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Personalizado</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">Real</span>
+          <span class="stat-label">Evolução Física</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">Elite</span>
+          <span class="stat-label">Suporte Contínuo</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-inner">
+      <div class="about-text reveal">
+        <div class="section-label">Sobre Marley</div>
+        <h2 class="section-title">Disciplina que transforma corpos e mentalidades.</h2>
+        <div class="about-body">
+          <p>
+            Cauã Marley fundou a Marley Personal Consulting com uma convicção clara: evolução física real nasce da consistência, da estratégia e do comprometimento diário. A consultoria oferece acompanhamento presencial e online — sem roteiros genéricos, sem promessas vazias.
+          </p>
+          <p>
+            Não se trata de personal training, mas de uma consultoria especializada: avaliação individualizada, montagem de treino e acompanhamento contínuo adaptado à realidade e ao ritmo de cada pessoa.
+          </p>
+        </div>
+        <div class="about-pillars">
+          <div class="pillar">
+            <span class="pillar-icon">🎯</span>
+            <div class="pillar-title">Consultoria Personalizada</div>
+            <div class="pillar-desc">Protocolo construído para você, não para uma média.</div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-icon">📈</span>
+            <div class="pillar-title">Resultados Reais</div>
+            <div class="pillar-desc">Evolução mensurável baseada em dados e consistência.</div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-icon">🔄</span>
+            <div class="pillar-title">Suporte Contínuo</div>
+            <div class="pillar-desc">Acompanhamento próximo durante toda a sua jornada.</div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-icon">⚡</span>
+            <div class="pillar-title">Evolução Fitness</div>
+            <div class="pillar-desc">Foco em performance, estética e qualidade de vida.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="services-header reveal">
+      <div>
+        <div class="section-label">O que oferecemos</div>
+        <h2 class="section-title">Serviços pensados para sua evolução.</h2>
+      </div>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <span class="service-icon">💻</span>
+        <div class="service-name">Consultoria Online</div>
+        <div class="service-desc">Acompanhamento remoto completo — onde você estiver, seu progresso continua.</div>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🏋️</span>
+        <div class="service-name">Treino Personalizado</div>
+        <div class="service-desc">Protocolo de treino desenvolvido exclusivamente para seus objetivos e nível.</div>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🥗</span>
+        <div class="service-name">Orientação Nutricional</div>
+        <div class="service-desc">Direcionamento alimentar alinhado ao seu objetivo — sem dietas radicais.</div>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">📱</span>
+        <div class="service-name">Suporte via WhatsApp</div>
+        <div class="service-desc">Acesso direto para dúvidas, ajustes e motivação quando você precisar.</div>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">📊</span>
+        <div class="service-name">Monitoramento de Evolução</div>
+        <div class="service-desc">Avaliações periódicas para rastrear seu progresso e ajustar a estratégia.</div>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🏆</span>
+        <div class="service-name">Coaching Fitness</div>
+        <div class="service-desc">Suporte estratégico para manter a disciplina e superar barreiras com consistência.</div>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="pricing-header reveal">
+      <div class="section-label">Planos</div>
+      <h2 class="section-title">Invista na sua evolução.</h2>
+    </div>
+    <div class="pricing-grid reveal">
+
+      <div class="pricing-card">
+        <div class="pricing-plan">Plano Essencial</div>
+        <div class="pricing-price"><sup>R$</sup>100</div>
+        <div class="pricing-period">por mês</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Avaliação individualizada</li>
+          <li>Treino montado</li>
+        </ul>
+        <a href="https://wa.me/5582994225323" target="_blank" rel="noopener noreferrer" class="btn-pricing btn-pricing-outline">Começar Agora</a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-plan">Plano Intermediário</div>
+        <div class="pricing-price"><sup>R$</sup>150</div>
+        <div class="pricing-period">por mês</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Avaliação individualizada</li>
+          <li>Treino específico</li>
+          <li>Acompanhamento semanal online</li>
+        </ul>
+        <a href="https://wa.me/5582994225323" target="_blank" rel="noopener noreferrer" class="btn-pricing btn-pricing-outline">Evoluir Agora</a>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Mais Escolhido</div>
+        <div class="pricing-plan">Plano Premium</div>
+        <div class="pricing-price"><sup>R$</sup>200</div>
+        <div class="pricing-period">por mês</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Avaliação individualizada</li>
+          <li>Treino específico</li>
+          <li>Acompanhamento semi-presencial mensal</li>
+          <li>Estratégias de treino personalizadas</li>
+        </ul>
+        <a href="https://wa.me/5582994225323" target="_blank" rel="noopener noreferrer" class="btn-pricing btn-pricing-solid">Entrar para o Elite</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="portfolio-header reveal">
+      <div class="section-label">Portfólio Visual</div>
+      <h2 class="section-title">Condicionamento, disciplina e evolução.</h2>
+      <p class="portfolio-intro">
+        Imagens que representam o padrão de comprometimento e dedicação da nossa consultoria.
+      </p>
+    </div>
+
+    <!-- ITALO GABRIEL -->
+    <div class="person-block reveal">
+      <div class="person-header">
+        <div>
+          <div class="person-name">Ítalo Gabriel</div>
+          <div class="person-role">Em processo de preparação para competição</div>
+        </div>
+        <div class="person-caption">
+          "Foco total em condicionamento, disciplina e preparação competitiva."
+        </div>
+      </div>
+      <div class="gallery-italo">
+        <div class="img-frame img-hero">
+          <img src="https://media.base44.com/images/public/6a0f922028611ec456246be9/43a3808e6_italodecostas.jpg" alt="Ítalo Gabriel" />
+        </div>
+        <div class="img-frame img-a">
+          <img src="https://media.base44.com/images/public/6a0f922028611ec456246be9/6e86909b9_italofrente1.jpg" alt="Ítalo Gabriel" />
+        </div>
+        <div class="img-frame img-b">
+          <img src="https://media.base44.com/images/public/6a0f922028611ec456246be9/b40899c74_it3.jpg" alt="Ítalo Gabriel" />
+        </div>
+      </div>
+    </div>
+
+    <!-- CAUÃ MARLEY -->
+    <div class="person-block reveal">
+      <div class="person-header">
+        <div>
+          <div class="person-name">Cauã Marley</div>
+          <div class="person-role">Em processo de ganho de massa e hipertrofia</div>
+        </div>
+        <div class="person-caption">
+          "Comprometimento diário com o ganho de massa e evolução contínua."
+        </div>
+      </div>
+      <div class="gallery-marley">
+        <div class="img-frame">
+          <img src="https://media.base44.com/images/public/6a0f922028611ec456246be9/e68a52267_Marleyantes.jpg" alt="Cauã Marley" />
+        </div>
+        <div class="img-frame">
+          <img src="https://media.base44.com/images/public/6a0f922028611ec456246be9/7582bcc32_marleydepoisdefrente.jpg" alt="Cauã Marley" />
+        </div>
+        <div class="img-frame">
+          <img src="https://media.base44.com/images/public/6a0f922028611ec456246be9/3bea250fe_marleydepoisdecostas.jpg" alt="Cauã Marley" />
+        </div>
+      </div>
+    </div>
+
+    <!-- RAFAEL -->
+    <div class="person-block reveal">
+      <div class="person-header">
+        <div>
+          <div class="person-name">Rafael</div>
+          <div class="person-role">Em processo de emagrecimento</div>
+        </div>
+        <div class="person-caption">
+          "Consistência e estratégia no caminho do emagrecimento saudável."
+        </div>
+      </div>
+      <div class="gallery-rafael">
+        <div class="img-frame">
+          <img src="https://media.base44.com/images/public/6a0f922028611ec456246be9/5a6b49375_rf2.jpg" alt="Rafael" />
+        </div>
+        <div class="img-frame">
+          <img src="https://media.base44.com/images/public/6a0f922028611ec456246be9/5c80c99da_rf5.jpg" alt="Rafael" />
+        </div>
+        <div class="img-frame">
+          <img src="https://media.base44.com/images/public/6a0f922028611ec456246be9/d33f8dd60_rafa3.jpg" alt="Rafael" />
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="testimonials-header reveal">
+      <div class="section-label">Depoimentos</div>
+      <h2 class="section-title">O que dizem os alunos.</h2>
+    </div>
+    <div class="testimonials-grid reveal">
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Um nível de suporte e atenção completamente diferente. A orientação realmente faz diferença.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">N</div>
+          <div>
+            <div class="author-name">Nycole Soares</div>
+            <div class="author-role">Aluna — Consultoria Online</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Nunca tive um acompanhamento tão próximo. Cada detalhe foi pensado para mim. O resultado fala por si.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">R</div>
+          <div>
+            <div class="author-name">Rafael</div>
+            <div class="author-role">Aluno — Evolução Física</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Preparação em outro nível. Disciplina, estratégia e comprometimento real com o meu objetivo.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">Í</div>
+          <div>
+            <div class="author-name">Ítalo Gabriel</div>
+            <div class="author-role">Aluno — Condicionamento</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-left reveal">
+        <div class="section-label">Contato</div>
+        <h2 class="section-title">Pronto para começar?</h2>
+        <p class="contact-tagline">
+          Entre em contato e dê o primeiro passo em direção à sua melhor versão.
+        </p>
+        <div class="contact-links">
+          <a href="https://wa.me/5582994225323" target="_blank" rel="noopener noreferrer" class="contact-link">
+            <span class="contact-link-icon">📱</span>
+            <div class="contact-link-info">
+              <span class="contact-link-label">WhatsApp</span>
+              +55 (82) 99422-5323
+            </div>
+            <span>→</span>
+          </a>
+          <a href="https://instagram.com/edfcaua_" target="_blank" rel="noopener noreferrer" class="contact-link">
+            <span class="contact-link-icon">📸</span>
+            <div class="contact-link-info">
+              <span class="contact-link-label">Instagram</span>
+              @edfcaua_
+            </div>
+            <span>→</span>
+          </a>
+          <a href="mailto:team.caua01@gmail.com" class="contact-link">
+            <span class="contact-link-icon">✉️</span>
+            <div class="contact-link-info">
+              <span class="contact-link-label">E-mail</span>
+              team.caua01@gmail.com
+            </div>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+      <div class="contact-right reveal">
+        <div class="contact-cta-box">
+          <div class="contact-cta-title">Comece hoje.</div>
+          <p class="contact-cta-text">
+            Uma conversa é suficiente para entendermos seus objetivos e montar uma estratégia real para você.
+          </p>
+          <div class="contact-cta-btns">
+            <a href="https://wa.me/5582994225323" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-align:center;">Falar no WhatsApp</a>
+            <a href="https://instagram.com/edfcaua_" target="_blank" rel="noopener noreferrer" class="btn-outline" style="text-align:center;">Ver Instagram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">Marley Personal Consulting</div>
+        <div class="footer-tagline">Discipline creates results.</div>
+      </div>
+      <div class="footer-center">
+        <div class="footer-phrase">"A disciplina cria resultados."</div>
+        <div class="footer-dev">Website desenvolvido por <a href="https://instagram.com/penhafiel.dev" target="_blank" rel="noopener noreferrer">@penhafiel.dev</a></div>
+      </div>
+      <div class="footer-social">
+        <a href="https://wa.me/5582994225323" target="_blank" rel="noopener noreferrer" title="WhatsApp">📱</a>
+        <a href="https://instagram.com/edfcaua_" target="_blank" rel="noopener noreferrer" title="Instagram">📸</a>
+        <a href="mailto:team.caua01@gmail.com" title="E-mail">✉️</a>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      © 2025 Marley Personal Consulting. Todos os direitos reservados.
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/5582994225323" target="_blank" rel="noopener noreferrer" class="float-wa" title="Falar no WhatsApp">💬</a>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+    });
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+    });
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
